@@ -1,0 +1,48 @@
+<mat-card class="mat-card-light"> 
+    <mat-card-header style="display: flex; justify-content: space-between;">
+      <mat-card-title class="accent">
+        <span *ngIf="cheeseForm.value.id !== null; else elseBlock">
+          Editing Cheese
+        </span>
+        <ng-template #elseBlock>
+          Create Cheese
+        </ng-template>
+      </mat-card-title>
+      
+    </mat-card-header>
+  <form [formGroup]="cheeseForm" >
+    <mat-card-content>
+
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Textarea</mat-label>
+        <textarea matInput formControlName="description">
+        </textarea>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Price: {{cheeseForm.value.price | currency}}</mat-label>
+        <input matInput formControlName="price" 
+        type="number" class="example-right-align">
+        <span matPrefix>$&nbsp;</span>
+        <span matSuffix>.00</span>
+      </mat-form-field>
+
+      <thirty-rating (newRating)="cheeseForm.value.rating = $event" 
+      [rating]="cheeseForm.value.rating" max="5">
+      </thirty-rating>
+
+    </mat-card-content>
+    <mat-card-actions style="display: flex; justify-content: space-between;">
+      <button [disabled]="cheeseForm.invalid" type="submit" mat-button color="primary"
+      (click)="saved.emit(cheeseForm.value)">Save</button>
+      <button type="button" mat-button (click)="cancelled.emit();$event.stopImmediatePropagation();cancel();">
+        Cancel
+      </button>
+    </mat-card-actions>
+  </form>
+</mat-card>

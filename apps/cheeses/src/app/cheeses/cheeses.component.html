@@ -1,0 +1,30 @@
+<div class="secondary-div">
+    <mat-toolbar class="secondary-toolbar">
+        <span>Cheese List</span>
+        <div *ngIf="(cheese$|async) !== undefined && (cheese$|async) !== null" style="margin-left: 10px">
+            <a mat-button class="nav-link" 
+            [routerLink]="(cheese$ | async).id" routerLinkActive="active">
+                <span >
+                  Cheese Overview
+                </span>
+            </a>
+        </div>
+    </mat-toolbar>
+</div>
+
+<div class="cheeses-containers">
+    <div class="cheeses-list">
+        <thirty-cheeses-list [cheeses]="cheeses$ | async" (selected)="select($event)" (deleted)="delete($event)">
+        </thirty-cheeses-list>
+    </div>
+    <div [@openClose]="detailOpen ? 'open' : 'closed'" >
+        <thirty-cheeses-detail [cheese]="cheese$ | async" (saved)="save($event)" (cancelled)="cancel()" 
+        (click)="focusDetail();$event.stopImmediatePropagation()" > 
+        </thirty-cheeses-detail>
+    </div>
+</div>
+
+<div class="cheeses-containers">
+    <router-outlet>
+    </router-outlet>
+</div>
